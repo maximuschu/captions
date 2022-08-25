@@ -21,7 +21,6 @@ class MyNotification(QMainWindow):
 
         QMainWindow.__init__(self)
 
-        # with this function You can Move Your Window by mouse dragging!
         def move_page(page):
             mxpos = 0
             mypos = 0
@@ -58,7 +57,7 @@ class MyNotification(QMainWindow):
             page.mousePressEvent = second_sub
             page.mouseMoveEvent = third_sub
 
-        # < Styles >
+        # Styles
         self.background_style_css = "background-color: rgba(22, 22, 22, 100); border-radius: 4px;"
         self.close_button_style_css = """
                                         QPushButton{
@@ -68,20 +67,17 @@ class MyNotification(QMainWindow):
                                                     }
                                     """
         self.text_label_style_css = "color: white; font-size: 60px"
-        # </ Styles >
 
-        # < Global Settings >
+        # Global Settings
         self.setFixedSize(2510, 160)
         self.move(30, 1200)
-        # </ Global Settings >
 
-        # < Main Style >
+        # Main Style
         self.main_back = QLabel(self)
         self.main_back.resize(2500, 150)
         self.main_back.setStyleSheet(self.background_style_css)
-        # </ Main Style >
 
-        # < Close Button >
+        # Exit Button
         self.close_button = QPushButton(self)
         self.close_button.setStyleSheet(self.close_button_style_css)
         self.close_button.setText("X")
@@ -89,17 +85,15 @@ class MyNotification(QMainWindow):
         self.close_button.move(2475, 5)
         self.close_button.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
         self.close_button.clicked.connect(self.close_window)
-        # < Close Button >
 
-        # < Test Button >
-        self.test_button = QPushButton(self)
-        self.test_button.setStyleSheet(self.close_button_style_css)
-        self.test_button.setText("Translate")
-        self.test_button.resize(75, 20)
-        self.test_button.move(2390, 5)
-        self.test_button.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
-        self.test_button.clicked.connect(self.change_text)
-        # < Test Button >
+        # Translate Button
+        self.translate_button = QPushButton(self)
+        self.translate_button.setStyleSheet(self.close_button_style_css)
+        self.translate_button.setText("Translate")
+        self.translate_button.resize(75, 20)
+        self.translate_button.move(2390, 5)
+        self.translate_button.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
+        self.translate_button.clicked.connect(self.change_text)
 
         # < Text Label >
         self.text_label = QLabel(self)
@@ -135,11 +129,11 @@ class MyNotification(QMainWindow):
         with mic as source:
             audio = r.listen(source)
         text = r.recognize_google(audio)
-        print(text)
+        # print(text)
         self.text_label.setText(text)
         translator = Translator()
         translation = translator.translate(text, src="en", dest="fr")
-        print(translation.text)
+        # print(translation.text)
         self.translate_label.setText(translation.text)
 
 
@@ -149,7 +143,7 @@ def get_audio():
     FORMAT = pyaudio.paInt16
     CHANNELS = 2
     RATE = 44100
-    RECORD_SECONDS = 5
+    RECORD_SECONDS = 0  # 5
     WAVE_OUTPUT_FILENAME = "output.wav"
 
     p = pyaudio.PyAudio()
@@ -162,7 +156,7 @@ def get_audio():
                     input_device_index=1)
     # input_host_api_specific_stream_info=SPEAKERS)
 
-    print("* recording")
+    #print("* recording")
 
     frames = []
 
@@ -170,18 +164,18 @@ def get_audio():
         data = stream.read(CHUNK)
         frames.append(data)
 
-    print("* done recording")
+    #print("* done recording")
 
     stream.stop_stream()
     stream.close()
     p.terminate()
 
-    wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
-    wf.setnchannels(CHANNELS)
-    wf.setsampwidth(p.get_sample_size(FORMAT))
-    wf.setframerate(RATE)
-    wf.writeframes(b''.join(frames))
-    wf.close()
+    #wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
+    # wf.setnchannels(CHANNELS)
+    # wf.setsampwidth(p.get_sample_size(FORMAT))
+    # wf.setframerate(RATE)
+    # wf.writeframes(b''.join(frames))
+    # wf.close()
 
     """
     # get a list of all speakers:
